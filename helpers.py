@@ -1,9 +1,9 @@
-from scipy.special import digamma
 import numpy as np
+from scipy.special import digamma
+from IPython.display import display, Markdown
 
 
 def dirich_log_expectation(alpha):
-    res = None
     if len(alpha.shape) == 1:
         # Case gamma, of shape (K, )
         res = digamma(alpha) - digamma(np.sum(alpha, keepdims=True))
@@ -11,7 +11,8 @@ def dirich_log_expectation(alpha):
     else:
         # Case phi, of shape (K, V)
         return digamma(alpha) - digamma(np.sum(alpha, axis=1, keepdims=True))
-    
+
+
 def one_hot_encoding(words, length):
     '''
     Arguments:
@@ -23,6 +24,11 @@ def one_hot_encoding(words, length):
     res = np.zeros((len(words), length))
     res[np.arange(res.shape[0]), words] = 1.0
     return res
+
+def print_md(string, bold=False):
+    if bold:
+        string = '**' + string + '**'
+    display(Markdown(string))
 
 def print_words(ids, vocab):
     for id in ids:
