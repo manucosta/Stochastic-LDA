@@ -57,7 +57,7 @@ class MiniBatchLDA:
 
     def fit(self):
         docs = self.words_by_doc.keys()
-        for t in xrange(500):
+        for t in xrange(1000):
             logger.info('Iteration: {}'.format(t))
             # Sample uniformly a minibatch of documents allowing replacement
             ds = np.random.choice(docs, size=self.minibatch_size)
