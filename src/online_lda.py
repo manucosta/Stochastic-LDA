@@ -1,5 +1,6 @@
 import copy
 import logging
+from tqdm import tqdm
 from math import pow
 
 from helpers import *
@@ -51,14 +52,14 @@ class OnlineLDA:
 
     def fit(self):
         docs = self.words_by_doc.keys()
-        for t in xrange(15000):
-            logger.info('Iteration: {}'.format(t))
+        for t in tqdm(xrange(15000)):
+            logger.debug('Iteration: {}'.format(t))
             # Sample uniformly a document
             d = np.random.choice(docs)
-            logger.info('Document: {}'.format(d))
+            logger.debug('Document: {}'.format(d))
             # Compute the learning rate, ro
             ro = pow((t + self.tau), (-self.kappa))
-            logger.info('Ro: {}'.format(ro))
+            logger.debug('Ro: {}'.format(ro))
             self.e_step(d)
             self.m_step(d, ro)
 
@@ -76,7 +77,7 @@ class OnlineLDA:
         # print 'lambda:', np.mean(self.lamb)
 
         phinorm = np.dot(exponential_elog_theta.T, exponential_elog_beta) + 1e-100
-        
+
         for _ in xrange(100):
             prev_gamma = copy.deepcopy(self.gamma[d])
 

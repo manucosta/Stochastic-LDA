@@ -1,5 +1,6 @@
 import copy
 import logging
+from tqdm import tqdm
 from math import pow
 
 from helpers import *
@@ -57,14 +58,15 @@ class MiniBatchLDA:
 
     def fit(self):
         docs = self.words_by_doc.keys()
-        for t in xrange(1000):
-            logger.info('Iteration: {}'.format(t))
-            # Sample uniformly a minibatch of documents allowing replacement
-            ds = np.random.choice(docs, size=self.minibatch_size)
+        for t in tqdm(xrange(1000)):
+            logger.debug('Iteration: {}'.format(t))
+            # Sample uniformly a minibatch of documents without replacement.
+            # The reason for disallow replacement is to avoid that words of the majority topics become too dominant
+            ds = np.random.choice(docs, size=self.minibatch_size, replace=False)
             logger.debug('Picked documents: {}'.format(ds))
             # Compute the learning rate, ro
             ro = pow((t + self.tau), (-self.kappa))
-            logger.info('Ro: {}'.format(ro))
+            logger.debug('Ro: {}'.format(ro))
             self.e_step(ds)
             self.m_step(ds, ro)
 
