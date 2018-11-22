@@ -56,9 +56,9 @@ class MiniBatchLDA:
 
         self.words_by_doc = words_by_doc
 
-    def fit(self):
+    def fit(self, iterations=100):
         docs = self.words_by_doc.keys()
-        for t in tqdm(xrange(1000)):
+        for t in tqdm(xrange(iterations)):
             logger.debug('Iteration: {}'.format(t))
             # Sample uniformly a minibatch of documents without replacement.
             # The reason for disallow replacement is to avoid that words of the majority topics become too dominant

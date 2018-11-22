@@ -53,4 +53,4 @@ def print_top_k_topics_for_doc(lda, doc_id, k, words_by_doc, vocab):
         print_md('Topic {}'.format(topic_id), bold=True)
         np.random.seed(42)
         words_distribution = np.random.dirichlet(lda.lamb[topic_id])
-        print_words(words_distribution.argsort()[::-1][:5], vocab)
+        print_words(words_distribution.argsort()[::-1][:10], vocab)
